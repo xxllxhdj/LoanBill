@@ -1,0 +1,22 @@
+
+<ion-view view-title="借款单">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear button-icon ion-plus btn-add" ng-click="addDoc()"></button>
+    </ion-nav-buttons>
+	<ion-content>
+        <div class="list doc-list">
+            <div class="item fade-in" ng-repeat="doc in data.docs">
+                <div class="item-line">
+                    <span class="doc-no">{{ doc.DocNo }}</span>
+                    <span>{{ doc.ReimburseDate | date:'yyyy-MM-dd' }}</span>
+                </div>
+                <div class="item-line">
+                    <span>{{ 'CNY' + doc.LoanMoney }}</span>
+                    <i class="icon ion-ios-compose-outline edit-icon" ng-click="editDoc(doc)"></i>
+                    <i class="icon ion-ios-trash-outline delete-icon" ng-click="deleteDoc($index)"></i>
+                </div>
+            </div>
+        </div>
+        </label>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,45 @@
+<ion-view view-title="{{data.title}}" class="operate-view">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="saveAccount()">保存</button>
+    </ion-nav-buttons>
+    <ion-content>
+        <label class="item item-input item-icon-right">
+            <i class="icon ion-ios-medical required-mark-icon"></i>
+            <span class="input-label">单据类型</span>
+            <input type="text" placeholder="请选择单据类型" ng-model="data.doc.LoanBillType" 
+                mobiscroll-select="data.selectSetting" mobiscroll-data="data.LoanBillTypes">
+            <i class="icon ion-ios-arrow-right"></i>
+        </label>
+        <label class="item item-input">
+            <i class="icon ion-ios-medical required-mark-icon"></i>
+            <span class="input-label">借款金额</span>
+            <span>CNY</span>
+            <input type="number" placeholder="请输入借款金额" ng-model="data.doc.LoanMoney">
+        </label>
+        <label class="item item-input">
+            <i class="icon ion-ios-medical required-mark-icon"></i>
+            <span class="input-label">借款日期</span>
+            <span>{{data.doc.LoanDate | date:'yyyy-MM-dd' }}</span>
+        </label>
+        <label class="item item-input">
+            <i class="icon ion-ios-medical required-mark-icon"></i>
+            <span class="input-label">借款人</span>
+            <span>{{data.doc.LoanPerson}}</span>
+        </label>
+        <label class="item item-input">
+            <i class="icon ion-ios-medical required-mark-icon"></i>
+            <span class="input-label">借款部门</span>
+            <span>{{data.doc.Dept}}</span>
+        </label>
+        <label class="item item-input item-icon-right">
+            <i class="icon ion-ios-medical required-mark-icon"></i>
+            <span class="input-label">项目</span>
+            <input type="text" placeholder="请选择项目" ng-model="data.doc.Project" 
+                mobiscroll-select="data.selectSetting" mobiscroll-data="data.Projects">
+            <i class="icon ion-ios-arrow-right"></i>
+        </label>
+        <label class="item item-textarea-input">
+            <span class="input-label">用途</span>
+            <textarea placeholder="请输入用途" ng-model="data.doc.LoanUse"></textarea>
+        </label>
+</ion-view>
