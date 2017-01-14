@@ -1,7 +1,11 @@
 angular.module('LoanBill.services')
 
-.factory('AccountService', ['$q', '$timeout', function($q, $timeout) {
-    var o = {};
+.factory('AccountService', ['$q', 'U9Service', 'APPCONSTANTS', function($q, U9Service, APPCONSTANTS) {
+    var _defer = $q.defer();
+
+    var o = {
+        init: _defer.promise
+    };
 
     var _operate; // 0: 新增; 1: 修改
     var _operateDoc; 
@@ -21,22 +25,28 @@ angular.module('LoanBill.services')
     o.saveDoc = function (doc) {
         var defer = $q.defer();
 
-        $timeout(function () {
-            var len = _docs.length;
-            if (_operate === 0) {
-                doc.DocNo = 'MO2016122' + (201 + len);
-                _docs.push(doc);
-                defer.resolve();
-                return;
-            }
-            for (var i = len - 1; i >= 0; i--) {
-                if (_docs[i].DocNo === doc.DocNo) {
-                    break;
-                }
-            }
-            angular.merge(_docs[i], doc);
+        var operateName = (_operate === 0) ? APPCONSTANTS.CreateLoanBill : APPCONSTANTS.UpdateLoanBill;
+
+        U9Service.post(operateName, { LoanBillInfo: doc }).then(function () {
+            return getLoanBillList();
+        }).then(function () {
             defer.resolve();
-        }, 200);
+        }).catch(function (err) {
+            defer.reject(err);
+        });
+
+        return defer.promise;
+    };
+    o.deleteDoc = function (docId) {
+        var defer = $q.defer();
+
+        U9Service.post(APPCONSTANTS.DeleteLoanBill, { ID: docId }).then(function () {
+            return getLoanBillList();
+        }).then(function () {
+            defer.resolve();
+        }).catch(function (err) {
+            defer.reject(err);
+        });
 
         return defer.promise;
     };
@@ -44,5 +54,24 @@ angular.module('LoanBill.services')
     	return _docs;
     };
 
+    getLoanBillList().finally(function () {
+        _defer.resolve();
+    });
+
     return o;
+
+    function getLoanBillList() {
+        var defer = $q.defer();
+
+        U9Service.post(APPCONSTANTS.GetLoanBillList, {
+            UserCode: u9.getLoginData().UserCode
+        }).then(function (docs) {
+            _docs = docs;
+            defer.resolve();
+        }, function () {
+            defer.resolve();
+        });
+
+        return defer.promise;
+    }
 }]);

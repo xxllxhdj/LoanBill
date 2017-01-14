@@ -16,7 +16,7 @@ angular.module('LoanBill.controllers')
         };
 
         $scope.saveAccount = function () {
-            if (!$scope.data.doc.LoanMoney) {
+            if (!$scope.data.doc.Money) {
                 u9.alert('请输入借款金额', '必填项');
                 return;
             }
@@ -24,6 +24,9 @@ angular.module('LoanBill.controllers')
             AccountService.saveDoc($scope.data.doc).then(function () {
                 $ionicHistory.goBack();
             }).finally(function () {
+                var operateInfo = AccountService.getOperateDoc(),
+                    operateName = operateInfo.operate === 0 ? '新增' : '编辑';
+                u9.alert(operateName + '借款单失败', operateName);
                 u9.hideLoading();
             });
         };
