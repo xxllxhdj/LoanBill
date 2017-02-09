@@ -4,8 +4,8 @@ angular.module('LoanBill.controllers')
     function($scope, $ionicHistory, AccountService, ReferService) {
         $scope.data = {};
 
-        $scope.data.LoanBillTypes = ReferService.get('LoanBillType');
-        $scope.data.Projects = ReferService.get('Project');
+        $scope.data.DocumentType = ReferService.get('DocumentType');
+        $scope.data.Project = ReferService.get('Project');
 
         $scope.data.selectSetting = {
             theme: 'ios',
@@ -21,7 +21,7 @@ angular.module('LoanBill.controllers')
                 return;
             }
             u9.showLoading();
-            AccountService.saveDoc($scope.data.doc).then(function () {
+            AccountService.saveDoc(angular.copy($scope.data.doc)).then(function () {
                 $ionicHistory.goBack();
             }).finally(function () {
                 var operateInfo = AccountService.getOperateDoc(),
@@ -37,6 +37,18 @@ angular.module('LoanBill.controllers')
             var operateInfo = AccountService.getOperateDoc();
             $scope.data.title = operateInfo.operate === 0 ? '新增' : operateInfo.doc.DocNo;
             $scope.data.doc = operateInfo.doc;
+
+            if (operateInfo.operate !== 0) {
+                return;
+            }
+            $scope.data.doc.Money = 0;
+            $scope.data.doc.LoanDate = new Date();
+            if (angular.isArray($scope.data.DocumentType) && $scope.data.DocumentType.length > 0) {
+                $scope.data.doc.DocumentType = $scope.data.DocumentType[0].ID;
+            }
+            if (angular.isArray($scope.data.Projects) && $scope.data.Projects.length > 0) {
+                $scope.data.doc.Project = $scope.data.Projects[0].ID;
+            }
         }
     }
 ]);

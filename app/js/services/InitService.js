@@ -1,18 +1,18 @@
 angular.module('LoanBill.services')
 
-.factory('InitService', ['$q', 'ReferService', 'AccountService', 
-	function($q, ReferService, AccountService) {
-	    var defer = $q.defer();
+.factory('InitService', ['$q', 'ReferService', 'AccountService',
+    function($q, ReferService, AccountService) {
+        var defer = $q.defer();
 
-	    init();
+        init();
 
-	    return defer.promise;
+        return defer.promise;
 
-	    function init() {
-	        var tasks = [ReferService.init, AccountService.init];
-	        $q.all(tasks).finally(function() {
-	            defer.resolve();
-	        });
-	    }
-	}
+        function init() {
+            var tasks = [ReferService.init, AccountService.init];
+            $q.all(tasks).finally(function() {
+                defer.resolve();
+            });
+        }
+    }
 ]);

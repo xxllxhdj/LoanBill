@@ -1,6 +1,6 @@
 angular.module('LoanBill.services')
 
-.factory('ReferService', ['$q', 'U9Service', 'APPCONSTANTS', 
+.factory('ReferService', ['$q', 'U9Service', 'APPCONSTANTS',
     function($q, U9Service, APPCONSTANTS) {
         var _defer = $q.defer(),
             _refer = {};
@@ -14,7 +14,7 @@ angular.module('LoanBill.services')
         };
 
         $q.all([
-            queryLoanBillTypes(), 
+            queryDocumentTypes(),
             queryProjects()
         ]).finally(function () {
             _defer.resolve();
@@ -22,13 +22,13 @@ angular.module('LoanBill.services')
 
         return o;
 
-        function queryLoanBillTypes() {
+        function queryDocumentTypes() {
             var defer = $q.defer();
 
             U9Service.post(APPCONSTANTS.GetDocumentType, {
-                DocType: APPCONSTANTS.DocType
-            }).then(function (loanBillTypes) {
-                _refer.LoanBillType = loanBillTypes;
+                docType: APPCONSTANTS.DocType
+            }).then(function (documentTypes) {
+                _refer.DocumentType = documentTypes;
                 defer.resolve();
             }, function () {
                 defer.resolve();
