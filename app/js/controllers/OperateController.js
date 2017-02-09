@@ -46,8 +46,8 @@ angular.module('LoanBill.controllers')
             if (angular.isArray($scope.data.DocumentType) && $scope.data.DocumentType.length > 0) {
                 $scope.data.doc.DocumentType = $scope.data.DocumentType[0].ID;
             }
-            if (angular.isArray($scope.data.Projects) && $scope.data.Projects.length > 0) {
-                $scope.data.doc.Project = $scope.data.Projects[0].ID;
+            if (angular.isArray($scope.data.Project) && $scope.data.Project.length > 0) {
+                $scope.data.doc.Project = $scope.data.Project[0].ID;
             }
         }
     }
