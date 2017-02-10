@@ -1,7 +1,7 @@
 angular.module('LoanBill.controllers')
 
-.controller('OperateController', ['$scope', '$ionicHistory', 'AccountService', 'ReferService',
-    function($scope, $ionicHistory, AccountService, ReferService) {
+.controller('OperateController', ['$scope', '$ionicHistory', 'AccountService', 'ReferService', 'User',
+    function($scope, $ionicHistory, AccountService, ReferService, User) {
         $scope.data = {};
 
         $scope.data.DocumentType = ReferService.get('DocumentType');
@@ -23,10 +23,9 @@ angular.module('LoanBill.controllers')
             u9.showLoading();
             AccountService.saveDoc(angular.copy($scope.data.doc)).then(function () {
                 $ionicHistory.goBack();
+            }, function (err) {
+                u9.alert(err.Message || '处理借款单失败', '操作失败');
             }).finally(function () {
-                var operateInfo = AccountService.getOperateDoc(),
-                    operateName = operateInfo.operate === 0 ? '新增' : '编辑';
-                u9.alert(operateName + '借款单失败', operateName);
                 u9.hideLoading();
             });
         };
@@ -38,9 +37,14 @@ angular.module('LoanBill.controllers')
             $scope.data.title = operateInfo.operate === 0 ? '新增' : operateInfo.doc.DocNo;
             $scope.data.doc = operateInfo.doc;
 
+            $scope.data.LoanUserName = User.get('UserName');
+            $scope.data.DepartmentName = User.get('DeptName');
+
             if (operateInfo.operate !== 0) {
                 return;
             }
+            $scope.data.doc.LoanUser = User.get('UserID');
+            $scope.data.doc.Department = User.get('DeptID');
             $scope.data.doc.Money = 0;
             $scope.data.doc.LoanDate = new Date();
             if (angular.isArray($scope.data.DocumentType) && $scope.data.DocumentType.length > 0) {

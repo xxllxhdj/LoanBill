@@ -9,6 +9,7 @@ angular.module('LoanBill.utility')
     UpdateLoanBill: 'U9.Cust.GDJT.ISV.LoanBillService.IUpdateLoanBillService',
     DeleteLoanBill: 'U9.Cust.GDJT.ISV.LoanBillService.IDeleteLoanBillService',
 
+    GetUser: 'U9.Cust.GDJT.ISV.CommonService.IGetUserService',
     GetDocumentType: 'U9.Cust.GDJT.ISV.CommonService.IGetDocumentTypeService',
     GetProject: 'U9.Cust.GDJT.ISV.CommonService.IGetProjectService'
 });
