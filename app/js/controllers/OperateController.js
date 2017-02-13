@@ -45,7 +45,6 @@ angular.module('LoanBill.controllers')
             }
             $scope.data.doc.LoanUser = User.get('UserID');
             $scope.data.doc.Department = User.get('DeptID');
-            $scope.data.doc.Money = 0;
             $scope.data.doc.LoanDate = new Date();
             if (angular.isArray($scope.data.DocumentType) && $scope.data.DocumentType.length > 0) {
                 $scope.data.doc.DocumentType = $scope.data.DocumentType[0].ID;
