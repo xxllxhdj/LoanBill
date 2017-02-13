@@ -16,23 +16,27 @@
             <span>CNY</span>
             <input type="number" placeholder="请输入借款金额" ng-model="data.doc.Money">
         </label>
-        <label class="item item-input">
+        <label class="item item-input item-icon-right">
             <i class="icon ion-ios-medical required-mark-icon"></i>
             <span class="input-label">借款日期</span>
-            <span>{{data.doc.LoanDate | date:'yyyy-MM-dd' }}</span>
-        </label>
-        <label class="item item-input">
-            <i class="icon ion-ios-medical required-mark-icon"></i>
-            <span class="input-label">借款人</span>
-            <span>{{data.LoanUserName}}</span>
-        </label>
-        <label class="item item-input">
-            <i class="icon ion-ios-medical required-mark-icon"></i>
-            <span class="input-label">借款部门</span>
-            <span>{{data.DepartmentName}}</span>
+            <input type="text" placeholder="请选择日期" ng-model="data.doc.LoanDate" mobiscroll-datetime="datePick">
+            <i class="icon ion-ios-arrow-right"></i>
         </label>
         <label class="item item-input item-icon-right">
             <i class="icon ion-ios-medical required-mark-icon"></i>
+            <span class="input-label">借款人</span>
+            <input type="text" placeholder="请选择借款人" ng-model="data.doc.LoanUser"
+                mobiscroll-select="data.selectSetting" mobiscroll-data="data.ExpenditurePerson">
+            <i class="icon ion-ios-arrow-right"></i>
+        </label>
+        <label class="item item-input item-icon-right">
+            <i class="icon ion-ios-medical required-mark-icon"></i>
+            <span class="input-label">借款部门</span>
+            <input type="text" placeholder="请选择借款部门" ng-model="data.doc.Department"
+                mobiscroll-select="data.selectSetting" mobiscroll-data="data.ExpenditureDepartment">
+            <i class="icon ion-ios-arrow-right"></i>
+        </label>
+        <label class="item item-input item-icon-right">
             <span class="input-label">项目</span>
             <input type="text" placeholder="请选择项目" ng-model="data.doc.Project"
                 mobiscroll-select="data.selectSetting" mobiscroll-data="data.Project">

@@ -4,14 +4,28 @@ angular.module('LoanBill.controllers')
     function($scope, $ionicHistory, AccountService, ReferService, User) {
         $scope.data = {};
 
-        $scope.data.DocumentType = ReferService.get('DocumentType');
-        $scope.data.Project = ReferService.get('Project');
+        angular.forEach([
+            'DocumentType', 'Project', 'ExpenditureDepartment', 'ExpenditurePerson'
+        ], function (referName) {
+            $scope.data[referName] = ReferService.get(referName);
+        });
+
+        var now = new Date(),
+            minDate = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate()),
+            maxDate = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
+        $scope.datePick = {
+            theme: 'ios',
+            lang: 'zh',
+            display: 'bottom',
+            min: minDate,
+            max: maxDate
+        };
 
         $scope.data.selectSetting = {
             theme: 'ios',
             lang: 'zh',
             display: 'bottom',
-            dataValue: 'Code',
+            dataValue: 'ID',
             dataText: 'Name'
         };
 
@@ -21,7 +35,11 @@ angular.module('LoanBill.controllers')
                 return;
             }
             u9.showLoading();
-            AccountService.saveDoc(angular.copy($scope.data.doc)).then(function () {
+            var tmp = angular.copy($scope.data.doc);
+            if (tmp.Project === 0) {
+                delete tmp.Project;
+            }
+            AccountService.saveDoc(tmp).then(function () {
                 $ionicHistory.goBack();
             }, function (err) {
                 u9.alert(err.Message || '处理借款单失败', '操作失败');
@@ -36,9 +54,6 @@ angular.module('LoanBill.controllers')
             var operateInfo = AccountService.getOperateDoc();
             $scope.data.title = operateInfo.operate === 0 ? '新增' : operateInfo.doc.DocNo;
             $scope.data.doc = operateInfo.doc;
-
-            $scope.data.LoanUserName = User.get('UserName');
-            $scope.data.DepartmentName = User.get('DeptName');
 
             if (operateInfo.operate !== 0) {
                 return;

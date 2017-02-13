@@ -13,22 +13,24 @@ angular.module('LoanBill.services')
             return _refer[key] ? angular.copy(_refer[key]) : [];
         };
 
-        $q.all([
-            queryDocumentTypes(),
-            queryProjects()
-        ]).finally(function () {
+        var batches = [queryDocumentType()];
+        angular.forEach([
+            'Project', 'ExpenditureDepartment', 'ExpenditurePerson'
+        ], function (referName) {
+            batches.push(queryRefer(referName));
+        });
+        $q.all(batches).finally(function () {
+            _refer.Project.unshift({ ID: 0, Name: ''});
             _defer.resolve();
         });
 
         return o;
 
-        function queryDocumentTypes() {
+        function queryRefer(referName) {
             var defer = $q.defer();
 
-            U9Service.post(APPCONSTANTS.GetDocumentType, {
-                docType: APPCONSTANTS.DocType
-            }).then(function (documentTypes) {
-                _refer.DocumentType = documentTypes;
+            U9Service.post(APPCONSTANTS['Get' + referName]).then(function (refers) {
+                _refer[referName] = refers;
                 defer.resolve();
             }, function () {
                 defer.resolve();
@@ -36,11 +38,14 @@ angular.module('LoanBill.services')
 
             return defer.promise;
         }
-        function queryProjects() {
+
+        function queryDocumentType() {
             var defer = $q.defer();
 
-            U9Service.post(APPCONSTANTS.GetProject).then(function (projects) {
-                _refer.Project = projects;
+            U9Service.post(APPCONSTANTS.GetDocumentType, {
+                docType: APPCONSTANTS.DocType
+            }).then(function (documentTypes) {
+                _refer.DocumentType = documentTypes;
                 defer.resolve();
             }, function () {
                 defer.resolve();

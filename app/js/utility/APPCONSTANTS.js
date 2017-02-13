@@ -11,5 +11,7 @@ angular.module('LoanBill.utility')
 
     GetUser: 'U9.Cust.GDJT.ISV.CommonService.IGetUserService',
     GetDocumentType: 'U9.Cust.GDJT.ISV.CommonService.IGetDocumentTypeService',
-    GetProject: 'U9.Cust.GDJT.ISV.CommonService.IGetProjectService'
+    GetProject: 'U9.Cust.GDJT.ISV.CommonService.IGetProjectService',
+    GetExpenditureDepartment: 'U9.Cust.GDJT.ISV.CommonService.IGetExpenditureDepartmentService',
+    GetExpenditurePerson: 'U9.Cust.GDJT.ISV.CommonService.IGetExpenditurePersonService'
 });
