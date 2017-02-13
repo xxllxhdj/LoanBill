@@ -10,7 +10,16 @@ angular.module('LoanBill', [
     'LoanBill.utility'
 ])
 
-.run(['InitService', function (InitService) {
+.run(['$window', 'InitService', function ($window, InitService) {
+    if (ionic.Platform.isIOS()) {
+        document.addEventListener('click', function (event) {
+            var hasFocus = document.hasFocus();
+            if (!hasFocus) {
+                $window.focus();
+            }
+        });
+    }
+
     InitService.then(function () {
         u9.hideLoading();
     });
