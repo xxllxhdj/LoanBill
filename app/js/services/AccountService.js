@@ -72,7 +72,11 @@ angular.module('LoanBill.services')
                 userID: User.get('UserID') || -1
             }).then(function (docs) {
                 angular.forEach(docs, function (doc) {
+                    doc.Department = doc.Department.ID;
+                    doc.LoanUser = doc.LoanUser.ID;
+                    doc.Project = doc.Project.ID;
                     doc.LoanDate = toJsTime(doc.LoanDate);
+                    delete doc.__type;
                 });
                 _docs = docs;
                 defer.resolve();
