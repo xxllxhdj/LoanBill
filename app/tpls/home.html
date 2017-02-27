@@ -5,13 +5,16 @@
     </ion-nav-buttons>
 	<ion-content>
         <div class="list doc-list">
-            <div class="item fade-in" ng-repeat="doc in data.docs">
+            <div class="item fade-in" ng-repeat="doc in data.docs" ng-switch="doc.DocStatus">
+                <img ng-switch-when="0" class="doc-status">
+                <img ng-switch-when="1" class="doc-status" ng-src="img/approving.png">
+                <img ng-switch-default class="doc-status" ng-src="img/approved.png">
                 <div class="item-line">
                     <span class="doc-no">{{ doc.DocNo }}</span>
                     <span>{{ 'CNY' + doc.Money }}</span>
                 </div>
                 <div class="item-line">
-                    <span>{{ doc.Remark }}</span>
+                    {{ doc.Remark }}
                     <i class="icon ion-ios-upload-outline submit-icon" ng-if="!doc.DocStatus" ng-click="submitDoc(doc)"></i>
                     <i class="icon ion-ios-compose-outline edit-icon" ng-if="!doc.DocStatus" ng-click="editDoc(doc)"></i>
                     <i class="icon ion-ios-trash-outline delete-icon" ng-click="deleteDoc(doc)"></i>

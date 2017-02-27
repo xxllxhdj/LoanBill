@@ -1,7 +1,7 @@
 angular.module('LoanBill.services')
 
-.factory('AccountService', ['$q', 'U9Service', 'APPCONSTANTS', 'User',
-    function($q, U9Service, APPCONSTANTS, User) {
+.factory('AccountService', ['$q', '$filter', 'U9Service', 'APPCONSTANTS', 'User',
+    function($q, $filter, U9Service, APPCONSTANTS, User) {
         var _defer = $q.defer();
 
         var o = {
@@ -26,6 +26,11 @@ angular.module('LoanBill.services')
         o.saveDoc = function (doc) {
             var defer = $q.defer();
 
+            doc.LoanUser = doc.LoanUser.ID;
+            doc.Department = doc.Department.ID;
+            if (doc.Project) {
+                doc.Project = doc.Project.ID;
+            }
             doc.LoanDate = toJavaTime(doc.LoanDate);
 
             var operateName = (_operate === 0) ? APPCONSTANTS.CreateLoanBill : APPCONSTANTS.UpdateLoanBill;
@@ -72,13 +77,13 @@ angular.module('LoanBill.services')
                 userID: User.get('UserID') || -1
             }).then(function (docs) {
                 angular.forEach(docs, function (doc) {
-                    doc.Department = doc.Department.ID;
-                    doc.LoanUser = doc.LoanUser.ID;
-                    doc.Project = doc.Project.ID;
+                    if (doc.DocumentType) {
+                        doc.DocumentType = doc.DocumentType.ID;
+                    }
                     doc.LoanDate = toJsTime(doc.LoanDate);
                     delete doc.__type;
                 });
-                _docs = docs;
+                _docs = $filter('orderBy')(docs, ['ReimburseDate', 'DocNo'], true);;
                 defer.resolve();
             }, function () {
                 defer.resolve();

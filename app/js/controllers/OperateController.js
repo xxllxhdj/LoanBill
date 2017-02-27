@@ -1,14 +1,10 @@
 angular.module('LoanBill.controllers')
 
-.controller('OperateController', ['$scope', '$ionicHistory', 'AccountService', 'ReferService', 'User',
-    function($scope, $ionicHistory, AccountService, ReferService, User) {
+.controller('OperateController', ['$scope', '$ionicHistory', 'AccountService', 'LgSelect', 'TextInput', 'ReferService', 'User',
+    function($scope, $ionicHistory, AccountService, LgSelect, TextInput, ReferService, User) {
         $scope.data = {};
 
-        angular.forEach([
-            'DocumentType', 'Project', 'ExpenditureDepartment', 'ExpenditurePerson'
-        ], function (referName) {
-            $scope.data[referName] = ReferService.get(referName);
-        });
+        $scope.data.DocumentType = ReferService.get('DocumentType');
 
         var now = new Date(),
             minDate = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate()),
@@ -27,6 +23,43 @@ angular.module('LoanBill.controllers')
             display: 'bottom',
             dataValue: 'ID',
             dataText: 'Name'
+        };
+
+        $scope.numPad = {
+            theme: 'ios',
+            lang: 'zh',
+            decimalSeparator: '.',
+            thousandsSeparator: '',
+            display: 'bottom',
+            min: 0.01,
+            max: 99999999999.99,
+            scale: 2,
+            preset: 'decimal'
+        };
+
+        angular.forEach([
+            { key: 'LoanUser', refer: 'ExpenditurePerson', name: '借款人' },
+            { key: 'Department', refer: 'ExpenditureDepartment', name: '借款部门' },
+            { key: 'Project', refer: 'Project', name: '项目' }
+        ], function (fn) {
+            $scope['select' + fn.key] = function (tag) {
+                LgSelect.show({
+                    title: fn.name,
+                    list: ReferService.get(fn.refer),
+                    displayField: 'Name'
+                }).then(function (item) {
+                    tag[fn.key] = item;
+                });
+            };
+        });
+
+        $scope.inputUse = function (tag) {
+            TextInput.show({
+                title: '用途',
+                text: tag.Remark
+            }).then(function (text) {
+                tag.Remark = text;
+            });
         };
 
         $scope.saveAccount = function () {
@@ -58,14 +91,17 @@ angular.module('LoanBill.controllers')
             if (operateInfo.operate !== 0) {
                 return;
             }
-            $scope.data.doc.LoanUser = User.get('UserID');
-            $scope.data.doc.Department = User.get('DeptID');
+            $scope.data.doc.LoanUser = {
+                ID: User.get('UserID'),
+                Name: User.get('UserName')
+            };
+            $scope.data.doc.Department = {
+                ID: User.get('DeptID'),
+                Name: User.get('DeptName')
+            };
             $scope.data.doc.LoanDate = new Date();
             if (angular.isArray($scope.data.DocumentType) && $scope.data.DocumentType.length > 0) {
                 $scope.data.doc.DocumentType = $scope.data.DocumentType[0].ID;
-            }
-            if (angular.isArray($scope.data.Project) && $scope.data.Project.length > 0) {
-                $scope.data.doc.Project = $scope.data.Project[0].ID;
             }
         }
     }

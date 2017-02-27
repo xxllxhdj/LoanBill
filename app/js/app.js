@@ -3,6 +3,7 @@ angular.module('LoanBill', [
     'ionic',
     'mobiscroll-datetime',
     'mobiscroll-select',
+    'mobiscroll-numpad',
 
     'LoanBill.controllers',
     'LoanBill.directives',
@@ -40,14 +41,22 @@ angular.module('LoanBill', [
                 url: '/operate',
                 templateUrl: 'tpls/operate.html',
                 controller: 'OperateController'
+            })
+            .state('lgselect', {
+                url: '/lgselect',
+                templateUrl: 'tpls/lgselect.html',
+                controller: 'LgSelectController'
+            })
+            .state('textinput', {
+                url: '/textinput',
+                templateUrl: 'tpls/textinput.html',
+                controller: 'TextInputController'
             });
         $urlRouterProvider.otherwise('/home');
 
         $ionicConfigProvider.platform.android.scrolling.jsScrolling(true);
         $ionicConfigProvider.platform.android.navBar.alignTitle('center');
         $ionicConfigProvider.platform.android.backButton.previousTitleText(false);
-        $ionicConfigProvider.platform.android.navBar.transition('view');
-        $ionicConfigProvider.platform.android.views.transition('ios');
         $ionicConfigProvider.platform.android.views.swipeBackEnabled(true);
         $ionicConfigProvider.platform.android.views.swipeBackHitWidth(45);
         $ionicConfigProvider.platform.android.tabs.style('standard');
