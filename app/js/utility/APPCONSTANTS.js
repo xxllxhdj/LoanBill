@@ -7,6 +7,7 @@ angular.module('LoanBill.utility')
     GetLoanBillList: 'U9.Cust.GDJT.ISV.LoanBillService.IGetLoanBillListService',
     CreateLoanBill: 'U9.Cust.GDJT.ISV.LoanBillService.ICreateLoanBillService',
     UpdateLoanBill: 'U9.Cust.GDJT.ISV.LoanBillService.IUpdateLoanBillService',
+    SubmitLoanBill: 'U9.Cust.GDJT.ISV.LoanBillService.ISubmitLoanBillService',
     DeleteLoanBill: 'U9.Cust.GDJT.ISV.LoanBillService.IDeleteLoanBillService',
 
     GetUser: 'U9.Cust.GDJT.ISV.CommonService.IGetUserInfoService',

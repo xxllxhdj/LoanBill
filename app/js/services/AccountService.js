@@ -48,11 +48,32 @@ angular.module('LoanBill.services')
         o.deleteDoc = function (docId) {
             var defer = $q.defer();
 
-            U9Service.post(APPCONSTANTS.DeleteLoanBill, { ID: docId }).then(function () {
-                return getLoanBillList();
+            U9Service.post(APPCONSTANTS.DeleteLoanBill, { ID: docId }).then(function (success) {
+                if (success) {
+                    return getLoanBillList();
+                } else {
+                    return $q.reject();
+                }
             }).then(function () {
                 defer.resolve();
             }).catch(function (err) {
+                defer.reject(err);
+            });
+
+            return defer.promise;
+        };
+        o.submitDoc = function(docId) {
+            var defer = $q.defer();
+
+            U9Service.post(APPCONSTANTS.SubmitLoanBill, { iD: docId }).then(function(success) {
+                if (success) {
+                    return getLoanBillList();
+                } else {
+                    return $q.reject();
+                }
+            }).then(function() {
+                defer.resolve();
+            }).catch(function(err) {
                 defer.reject(err);
             });
 
