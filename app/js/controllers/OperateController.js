@@ -1,7 +1,7 @@
 angular.module('LoanBill.controllers')
 
-.controller('OperateController', ['$scope', '$ionicHistory', 'AccountService', 'LgSelect', 'TextInput', 'ReferService', 'User',
-    function($scope, $ionicHistory, AccountService, LgSelect, TextInput, ReferService, User) {
+.controller('OperateController', ['$scope', '$ionicHistory', 'AccountService', 'LgSelect', 'TextInput', 'Numberpad', 'ReferService', 'User',
+    function($scope, $ionicHistory, AccountService, LgSelect, TextInput, Numberpad, ReferService, User) {
         $scope.data = {};
 
         $scope.data.DocumentType = ReferService.get('DocumentType');
@@ -52,6 +52,15 @@ angular.module('LoanBill.controllers')
                 });
             };
         });
+
+        $scope.selectMoney = function (doc) {
+            Numberpad.show({
+                value: doc.Money,
+                decimal: true
+            }).then(function (number) {
+                doc.Money = number;
+            });
+        };
 
         $scope.inputUse = function (tag) {
             TextInput.show({

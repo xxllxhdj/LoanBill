@@ -3,7 +3,6 @@ angular.module('LoanBill', [
     'ionic',
     'mobiscroll-datetime',
     'mobiscroll-select',
-    'mobiscroll-numpad',
 
     'LoanBill.controllers',
     'LoanBill.directives',

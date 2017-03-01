@@ -10,11 +10,11 @@
                 mobiscroll-select="data.selectSetting" mobiscroll-data="data.DocumentType">
             <i class="icon ion-ios-arrow-right"></i>
         </label>
-        <label class="item item-input item-icon-right prefix-input">
+        <label class="item item-input item-icon-right prefix-input" ng-click="selectMoney(data.doc)">
             <i class="icon ion-ios-medical required-mark-icon"></i>
             <span class="input-label">借款金额</span>
             <span class="prefix">CNY</span>
-            <input type="number" ng-model="data.doc.Money" mobiscroll-numpad="numPad" placeholder="请输入借款金额" />
+            <input type="number" ng-model="data.doc.Money" placeholder="请输入借款金额" readonly="true">
             <i class="icon ion-ios-arrow-right"></i>
         </label>
         <label class="item item-input item-icon-right">
