@@ -40,7 +40,7 @@ angular.module('LoanBill.services')
             }).then(function () {
                 defer.resolve();
             }).catch(function (err) {
-                defer.reject(err);
+                defer.reject(err || {});
             });
 
             return defer.promise;
@@ -48,7 +48,7 @@ angular.module('LoanBill.services')
         o.deleteDoc = function (docId) {
             var defer = $q.defer();
 
-            U9Service.post(APPCONSTANTS.DeleteLoanBill, { ID: docId }).then(function (success) {
+            U9Service.post(APPCONSTANTS.DeleteLoanBill, { iD: docId }).then(function (success) {
                 if (success) {
                     return getLoanBillList();
                 } else {
@@ -57,7 +57,7 @@ angular.module('LoanBill.services')
             }).then(function () {
                 defer.resolve();
             }).catch(function (err) {
-                defer.reject(err);
+                defer.reject(err || {});
             });
 
             return defer.promise;
@@ -74,7 +74,7 @@ angular.module('LoanBill.services')
             }).then(function() {
                 defer.resolve();
             }).catch(function(err) {
-                defer.reject(err);
+                defer.reject(err || {});
             });
 
             return defer.promise;
